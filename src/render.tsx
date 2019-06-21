@@ -1,9 +1,5 @@
-import { Form, Input } from 'antd'
-import { render } from 'react-dom';
-import { type } from 'os';
-import { string, checkPropTypes, object } from 'prop-types';
 
-const KEY_WORDS = ['if', 'else', 'then']
+
 
 interface FormItemProps {
   prefix: string,
@@ -18,8 +14,8 @@ interface PropertiesContitionalIf {
 }
 interface ContitionalProperties {
   If: PropertiesContitionalIf,
-  Then: Schema | 'If',
-  Else: Schema | 'If',
+  Then: Schema | ContitionalProperties,
+  Else: Schema | ContitionalProperties,
 }
 interface Properties {
   [propsName: string]: ContitionalProperties | any
@@ -41,15 +37,15 @@ export const renderItem = ({
   schema,
   form,
   ...restProps
-} : FormItemProps) => {
+} : FormItemProps) : any => {
   const { type, format, properties } = schema;
   if(type === 'object') {
-    Object.keys(properties).map(key => {
+    return Object.keys(properties).map(key => {
       const property = properties[key];
-
       renderItem({
         prefix: [prefix, key].join('.'),
-        schema: property.If ? getContitionalSchema(property, form.getFieldValue) : property
+        schema: property.If ? getContitionalSchema(property, form.getFieldValue) : property,
+        ...restProps
       })
     })
   } 
@@ -60,13 +56,13 @@ export const renderItem = ({
 function getContitionalSchema(
   propertity: ContitionalProperties,
   getFieldValue: Function,
-) {
+): Schema {
   const contitionResult = getContitionResult(getFieldValue, propertity.If);
   const curPropertity = contitionResult ? propertity.Then : propertity.Else;
   if(curPropertity.If) {
-    return getContitionalSchema(curPropertity)
+    return getContitionalSchema(curPropertity as ContitionalProperties, getFieldValue)
   }else {
-    return curPropertity
+    return curPropertity as Schema
   }
   
 }
