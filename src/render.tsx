@@ -1,64 +1,66 @@
+import renderInput from './FormItem/renderInput';
+import renderSelect from './FormItem/enumSelector';
+import renderColor from './FormItem/color';
+import { FormItemProps, PropertiesContitionalIf, ContitionalProperties, Schema, EnumSchema } from './types';
+import { async } from 'q';
+// import { FormTypes } from './formTypes';
 
 
-
-interface FormItemProps {
-  prefix: string,
-  schema: Schema,  
-  [propsName: string]: any
-}
-
-interface PropertiesContitionalIf {
-  left: string,
-  contition ?: 'gte' | 'gt' | 'eq' | 'lt' | 'lte' | 'includes' | 'pattern',
-  right?: string
-}
-interface ContitionalProperties {
-  If: PropertiesContitionalIf,
-  Then: Schema | ContitionalProperties,
-  Else: Schema | ContitionalProperties,
-}
-interface Properties {
-  [propsName: string]: ContitionalProperties | any
-}
-
-interface Schema {
-  type: 'array' | 'object' | 'string',
-  format?: 'Input' | 'Table',
-  enum? : Array<any>,
-  properties: Properties,
-  'x-enumNames'? : Array<any>,
-  [propsName: string]: any
-}
-
-
-
-export const renderItem = ({
+function renderItem({
   prefix, 
   schema,
   form,
   ...restProps
-} : FormItemProps) : any => {
-  const { type, format, properties } = schema;
+} : FormItemProps) : any {
+  const { type, properties, format } = schema;
   if(type === 'object') {
     return Object.keys(properties).map(key => {
       const property = properties[key];
-      renderItem({
+      return renderItem({
         prefix: [prefix, key].join('.'),
         schema: property.If ? getContitionalSchema(property, form.getFieldValue) : property,
+        form,
         ...restProps
       })
     })
-  } 
-  
+  }
+
+  if(format === 'text') {
+    return renderInput({
+      prefix,
+      schema,
+      form,
+      title: schema.title,
+      ...restProps
+    })
+  }
+  if(format === 'enum') {
+    return renderSelect({
+      prefix,
+      schema: schema as EnumSchema,
+      initialValue: '',
+      form,
+      title: schema.title,
+      ...restProps
+    })
+  }
+  if(format === 'color') {
+    return renderColor({
+      form,
+      prefix
+    })
+  }
+  return null
 
 }
+
 
 function getContitionalSchema(
   propertity: ContitionalProperties,
   getFieldValue: Function,
 ): Schema {
   const contitionResult = getContitionResult(getFieldValue, propertity.If);
-  const curPropertity = contitionResult ? propertity.Then : propertity.Else;
+  const curPropertity  = contitionResult ? propertity.Then : propertity.Else;
   if(curPropertity.If) {
     return getContitionalSchema(curPropertity as ContitionalProperties, getFieldValue)
   }else {
@@ -84,5 +86,10 @@ function getContitionResult(getValue: Function, contitional: PropertiesContition
       return leftValue < right;
     case 'lte':
       return leftValue <= right;
+    default:
+      return false;
   }
 }
+
+export default renderItem;
+

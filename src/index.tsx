@@ -3,7 +3,6 @@
  */
 
 import * as React from 'react'
-
 import styles from './styles.css'
 
 export type Props = { text: string }
@@ -21,3 +20,5 @@ export default class ExampleComponent extends React.Component<Props> {
     )
   }
 }
+
+export { default as renderItem } from "./render";
