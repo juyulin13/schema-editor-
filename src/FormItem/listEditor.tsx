@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Form, Button, Table, Modal } from 'antd';
-import * as _ from 'lodash';
 import renderObjectFormItem from '../render';
 import { getSchemaDefaultValue } from '../utils';
-import { v4 as uuid } from 'uuid';
+// import * as uuid from 'uuid';
 import { Schema } from '../types';
+import FormItem from 'antd/lib/form/FormItem';
+import renderForm from '../render';
 
 class EditForm extends React.Component<any> {
   componentDidMount() {
@@ -56,7 +57,8 @@ const OPERATORS = {
 interface ListEditorProps {
   form: any,
   schema: any,
-  onChange: Function,
+  prefix: string,
+  onChange?: Function,
   renderForm: Function
 }
 
@@ -79,15 +81,12 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
   modalForm: any
   
   static getDerivedStateFromProps(props: ListEditorProps) {
-    const { form, schema } = props;
-    const data = form.getFieldValue(schema.id) || []
+    const { form, prefix } = props;
+    const data = form.getFieldValue(prefix) || []
     return {
       data
     }
   }
-
-
-
 
   get Columns() {
     return [{
@@ -175,7 +174,7 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
   onChange = (type: string, paylpad: Object) => {
     const { data } = this.state;
     const { onChange } = this.props;
-    onChange(arrayModify(data, type, paylpad))
+    onChange && onChange(arrayModify(data, type, paylpad))
   }
 
   onModalOk = () => {
@@ -184,7 +183,7 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
       const { modalType, curIndex } = this.state;
       if(!modalType) return;
       this.onChange(modalType, {
-        id: uuid(),
+        id: Math.random(),
         index: curIndex,
         data
       })
@@ -207,7 +206,7 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
               onCancel={this.closeModal}
             >
               {
-                (curIndex > -1) && (
+                (curIndex > -2) && (
                   <WrapperEditForm
                     initialValue={data[curIndex] || getSchemaDefaultValue(this.itemSchema)}
                     wrappedComponentRef={(form: any) => this.modalForm = form}
@@ -229,6 +228,22 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
 
 
 
+export default function renderListEditor(props: any) {
+  const { schema, title, form, prefix } = props;
+  return (
+    <FormItem label={title}>
+      {
+        form.getFieldDecorator(prefix)(
+          <ListEditor
+            prefix={prefix}
+            renderForm={renderForm}
+            form={form}
+            schema={schema}
 
+          />
+        )
+      }
+    </FormItem>
+  )
+}
 
-export default ListEditor;

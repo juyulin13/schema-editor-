@@ -9,7 +9,8 @@ export interface FormItemProps {
   formItemLayout?: Object,
   required?: boolean,
   options?: options
-  prefix: string
+  prefix: string,
+  label?: string
 }
 
 

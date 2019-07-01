@@ -29,9 +29,9 @@ export function ColorFormItem (_props: FormItemProps){
       ...defaultColorFormItemProps, 
       ..._props,
   };
-  const { getFieldDecorator, formItemLayout, options, prefix } = props;
+  const { getFieldDecorator, formItemLayout, options, prefix, label } = props;
   return (
-    <FormItem {...formItemLayout}>
+    <FormItem {...formItemLayout} label={label}>
       {
         getFieldDecorator(prefix, options)(<CompactPicker />)
       }
@@ -41,9 +41,11 @@ export function ColorFormItem (_props: FormItemProps){
 export default function renderColor ({
   form,
   prefix,
+  title
 }: any) {
   return (
     <ColorFormItem
+      label={title}
       getFieldDecorator={form.getFieldDecorator}
       prefix={prefix}
     />

@@ -1,6 +1,6 @@
 {
-  "name": "fe-schema-editor",
-  "version": "1.0.0",
+  "name": "@crgt/fe-schema-editor",
+  "version": "0.0.1",
   "description": "",
   "author": "juyulin",
   "license": "MIT",

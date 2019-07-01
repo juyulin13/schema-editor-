@@ -2,7 +2,7 @@ import renderInput from './FormItem/renderInput';
 import renderSelect from './FormItem/enumSelector';
 import renderColor from './FormItem/color';
 import { FormItemProps, PropertiesContitionalIf, ContitionalProperties, Schema, EnumSchema } from './types';
-import { async } from 'q';
+import renderListEditor from './FormItem/listEditor';
 // import { FormTypes } from './formTypes';
 
 
@@ -46,7 +46,16 @@ function renderItem({
   }
   if(format === 'color') {
     return renderColor({
+      title: schema.title,
       form,
+      prefix
+    })
+  }
+  if(format === 'list') {
+    return renderListEditor({
+      title: schema.title,
+      form,
+      schema,
       prefix
     })
   }

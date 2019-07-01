@@ -6,6 +6,20 @@ import 'antd/dist/antd.css';
 const schema = {
   type: 'object',
   properties: {
+    "test1": {
+      type: 'array',
+      items: {
+        type: "object",
+        properties: {
+          "aa": {
+            type: 'string',
+            title: "322323",
+            format: 'text'
+          }
+        }
+      },
+      format: 'list'
+    },
     "test": {
       type: "string",
       title: "ddd",
