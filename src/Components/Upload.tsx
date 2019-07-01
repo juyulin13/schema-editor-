@@ -1,44 +1,60 @@
-import React from 'react';
-import { Upload as AntdUpload, message } from 'antd';
+import * as React from 'react';
+import { Upload as AntdUpload, Button } from 'antd';
+import { UploadProps as AntdUploadProps } from 'antd/es/upload'
 import { isProduction } from '../utils/utils'
 
+
+export interface file {
+  uid: string,
+  status: 'uploading' | 'done' | 'error' | 'removed',
+  response?: string,
+  linkProps?: string,
+  name?: string,
+  url?: string
+}
+const prefix = `https://${ isProduction() ? '' : 't-'}basetool.ccrgt.com/fileupload`
 const PATH_MAP = {
   'image': '/picUp?path=images',
   'video': '/videoUp',
   'common': '/picUp'
 }
-export interface UploadProps {
-  onChange: Function,
-  children?: any,
-  options?: object,
-  onSuccess?: Function,
-  onError?: Function,
-  type: string
+
+export interface UploadProps extends AntdUploadProps {
+  resourceType: 'image' | 'video' | 'common'
 }
 
+export default class Upload extends React.Component <UploadProps>{
+  state = {
+    fileList: null
+  }
+  
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if(typeof nextProps.value !== 'undefined') {
+  //     const { format = 'string' } = nextProps
+      
+  //     return {
+  //       fileList: []
+  //     }
+  //   }
+  //   return null;
+  // }
 
-function SingleUpload(props: UploadProps) {
-  const { onChange, children, options, onSuccess, onError, type } = props;
-  const prefix = `https://${ isProduction() ? '' : 't-'}basetool.ccrgt.com/fileupload`
-  const path =  PATH_MAP[type]
-  const uploadProps = {
-    action: prefix + path,
-    onChange: (data: any) => {
-      const { file } = data;
-      onChange && onChange(data);
-      if (file.status === 'done') {
-        const { code, errmsg = '上传失败' } = file.response;
-        if (code === 0) {
-          onSuccess && onSuccess(file);
-          message.success('上传成功');
-        } else {
-          onError && onError(errmsg);
-          message.error(errmsg);
-        }
-      }
-    },
-    ...options,
-  };
-  return <AntdUpload {...uploadProps}>{children}</AntdUpload>;
+
+  get action() {
+    const { resourceType } = this.props
+    return prefix + PATH_MAP[resourceType]
+  }
+   
+  render() {
+    const { children, ...restProps } = this.props;
+    return (
+      <AntdUpload
+        action={this.action}
+        {...restProps}
+      >
+        { children || <Button>上传</Button>}
+      </AntdUpload>
+    )
+
+  }
 }
-export default SingleUpload;

@@ -24,6 +24,18 @@ const schema = {
       type: "string",
       title: "ddd",
       format: "color"
+    },
+    "aa": {
+      type: "string",
+      title: "图片",
+      format: "resource",
+      desc: "2323",
+      placeholder: "请上传最大44k图片",
+      options: {
+        maxFileSize: '2332kb',
+        resourceType: 'image',
+        
+      }
     }
   }
 }
