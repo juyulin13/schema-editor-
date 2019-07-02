@@ -17,7 +17,7 @@ function renderItem({
     return Object.keys(properties).map(key => {
       const property = properties[key];
       return renderItem({
-        prefix: [prefix, key].join('.'),
+        prefix: property.type === 'virtual' ? prefix : [prefix, key].join('.'),
         schema: property.If ? getContitionalSchema(property, form.getFieldValue) : property,
         form,
         ...restProps

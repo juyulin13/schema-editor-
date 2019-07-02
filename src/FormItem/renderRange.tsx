@@ -19,7 +19,7 @@ export default ({
         renderItem({
           schema: range[0],
           form,
-          prefix,
+          prefix: prefix + '.' + range[0].key,
           style:{ display: 'inline-block', width: 'calc(50% - 12px)' }
         })
       }
@@ -28,7 +28,7 @@ export default ({
        renderItem({
          form,
          schema: range[1],
-         prefix,
+         prefix: prefix + '.' + range[1].key,
          style:{ display: 'inline-block', width: 'calc(50% - 12px)' }
        })
       }
