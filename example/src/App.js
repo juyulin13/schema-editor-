@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form } from 'antd';
+import { Form, Button } from 'antd';
 import { renderItem } from 'fe-schema-editor'
 import 'antd/dist/antd.css';
 
@@ -36,11 +36,30 @@ const schema = {
         resourceType: 'image',
         
       }
+    },
+    time: {
+      type: "null",
+      format: "range",
+      range: [{
+        key: "startTime",
+        type: 'string',
+        format: 'text'
+      }, {
+        key: "endTime",
+        type: 'string',
+        format: 'text'
+      }]
     }
+    
   }
 }
 
 class SchemaForm extends React.Component {
+  onSubmit = () => {
+    const { form } = this.props
+    const result = form.getFieldsValue()
+    console.log(result)
+  }
   render() {
     const { form } = this.props
     const prefix = '$root'
@@ -50,6 +69,7 @@ class SchemaForm extends React.Component {
       schema
     }))
     return <div>
+      <Button onClick={this.onSubmit}>提交</Button>
       <Form>
         {renderItem({
           form,

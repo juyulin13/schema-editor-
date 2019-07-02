@@ -9,13 +9,17 @@ export default ({
   initialValue,
   form,
   formItemLayout = {},
+  ...restProps
 }: any) => {
+  const component = (
+    form.getFieldDecorator(prefix, {
+      initialValue
+    })(<Input />)
+  )
   return (
-    <FormItem label={schema.title} key={prefix} {...formItemLayout}>
+    <FormItem label={schema.title} key={prefix} {...formItemLayout} {...restProps}>
       {
-        form.getFieldDecorator(prefix, {
-          initialValue
-        })(<Input />)
+       component
       }
     </FormItem>
   )

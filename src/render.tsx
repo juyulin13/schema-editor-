@@ -4,7 +4,7 @@ import renderColor from './FormItem/color';
 import { FormItemProps, PropertiesContitionalIf, ContitionalProperties, Schema, EnumSchema } from './types';
 import renderListEditor from './FormItem/listEditor';
 import renderResource from './FormItem/renderResource';
-
+import renderRange from './FormItem/renderRange'
 
 function renderItem({
   prefix, 
@@ -66,6 +66,15 @@ function renderItem({
       form,
       schema,
       prefix
+    })
+  }
+  if(format === 'range') {
+    return renderRange({
+      title: schema.title,
+      form,
+      schema,
+      prefix,
+      range: schema.range
     })
   }
   return null

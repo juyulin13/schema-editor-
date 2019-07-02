@@ -1,6 +1,7 @@
 export interface FormItemProps {
     prefix: string,
     schema: Schema,  
+    style?: any,
     [propsName: string]: any
   }
   
