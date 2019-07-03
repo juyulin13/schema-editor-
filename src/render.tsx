@@ -30,7 +30,7 @@ function renderItem({
       prefix,
       schema,
       form,
-      title: schema.title,
+      label: schema.title,
       ...restProps
     })
   }
@@ -40,20 +40,20 @@ function renderItem({
       schema: schema as EnumSchema,
       initialValue: '',
       form,
-      title: schema.title,
+      label: schema.title,
       ...restProps
     })
   }
   if(format === 'color') {
     return renderColor({
-      title: schema.title,
+      label: schema.title,
       form,
       prefix
     })
   }
   if(format === 'list') {
     return renderListEditor({
-      title: schema.title,
+      label: schema.title,
       form,
       schema,
       prefix
@@ -62,7 +62,7 @@ function renderItem({
 
   if(format === 'resource') {
     return renderResource({
-      title: schema.title,
+      label: schema.title,
       form,
       schema,
       prefix
@@ -70,7 +70,7 @@ function renderItem({
   }
   if(format === 'range') {
     return renderRange({
-      title: schema.title,
+      label: schema.title,
       form,
       schema,
       prefix,

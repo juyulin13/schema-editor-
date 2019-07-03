@@ -4,7 +4,7 @@ import { Input, Form } from 'antd';
 const FormItem = Form.Item;
 
 export default ({
-  schema,
+  label,
   prefix,
   initialValue,
   form,
@@ -17,7 +17,7 @@ export default ({
     })(<Input />)
   )
   return (
-    <FormItem label={schema.title} key={prefix} {...formItemLayout} {...restProps}>
+    <FormItem label={label} key={prefix} {...formItemLayout} {...restProps}>
       {
        component
       }
