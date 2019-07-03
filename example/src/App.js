@@ -39,6 +39,7 @@ const schema = {
     time: {
       type: "virtual",
       format: "range",
+      title: "版本区间",
       range: [{
         key: "startTime",
         type: 'string',

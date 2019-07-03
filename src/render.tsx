@@ -19,7 +19,7 @@ function renderItem({
     return Object.keys(properties).map(key => {
       const property = properties[key];
       return renderItem({
-        prefix: [prefix, key].join('.'),
+        prefix: property.type === 'virtual' ? prefix : [prefix, key].join('.'),
         schema: property.If ? getContitionalSchema(property, form.getFieldValue) : property,
         form,
         ...restProps
@@ -55,7 +55,7 @@ function renderBaseItem({
       prefix,
       schema,
       form,
-      title: schema.title,
+      label: schema.title,
       ...restProps
     })
   }
@@ -65,7 +65,7 @@ function renderBaseItem({
       schema: schema as EnumSchema,
       initialValue: '',
       form,
-      title: schema.title,
+      label: schema.title,
       ...restProps
     })
   }
