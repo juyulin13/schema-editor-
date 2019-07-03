@@ -34,7 +34,8 @@ interface EnumSelectorFormItemProps {
   schema: EnumSchema,
   initialValue: any,
   title?: string,
-  style?: object
+  style?: object,
+  formItemLayout?: object
 }
 
 
@@ -44,6 +45,7 @@ export default function EnumSelectorFormItem({
   schema,
   initialValue,
   title,
+  formItemLayout
 } : EnumSelectorFormItemProps){
   const EnumOptions = schema.enum.map((key, index) => ({
     key,
@@ -54,12 +56,14 @@ export default function EnumSelectorFormItem({
       initialValue
     })(<EnumSelector EnumOptions={EnumOptions} />)
   )
-  const formProps :any = {}
+  const formProps :any = {
+    ...formItemLayout
+  }
   if(title) {
     formProps.label = title
   }
   return (
-    <FormItem {...formProps}>
+    <FormItem {...formProps} >
       {
         component
       }

@@ -1,3 +1,5 @@
+import * as React from 'react';
+import { Col } from 'antd';
 import renderInput from './FormItem/renderInput';
 import renderSelect from './FormItem/enumSelector';
 import renderColor from './FormItem/color';
@@ -24,9 +26,32 @@ function renderItem({
       })
     })
   }
+  return renderBaseItem({
+    format,
+    schema,
+    form,
+    title: schema.title,
+    prefix,
+    formItemLayout: schema.formItemLayout,
+    ...restProps
+  })
+  
 
+}
+
+
+function renderBaseItem({
+  format,
+  schema,
+  form,
+  title,
+  prefix,
+  ...restProps
+}: any) {
+
+  var formItem;
   if(format === 'text') {
-    return renderInput({
+    formItem =  renderInput({
       prefix,
       schema,
       form,
@@ -35,7 +60,7 @@ function renderItem({
     })
   }
   if(format === 'enum') {
-    return renderSelect({
+    formItem =  renderSelect({
       prefix,
       schema: schema as EnumSchema,
       initialValue: '',
@@ -45,14 +70,14 @@ function renderItem({
     })
   }
   if(format === 'color') {
-    return renderColor({
+    formItem = renderColor({
       title: schema.title,
       form,
       prefix
     })
   }
   if(format === 'list') {
-    return renderListEditor({
+    formItem = renderListEditor({
       title: schema.title,
       form,
       schema,
@@ -61,7 +86,7 @@ function renderItem({
   }
 
   if(format === 'resource') {
-    return renderResource({
+    formItem = renderResource({
       title: schema.title,
       form,
       schema,
@@ -69,7 +94,7 @@ function renderItem({
     })
   }
   if(format === 'range') {
-    return renderRange({
+    formItem = renderRange({
       title: schema.title,
       form,
       schema,
@@ -77,10 +102,13 @@ function renderItem({
       range: schema.range
     })
   }
-  return null
-
+  if(schema.col) {
+    formItem = <Col {...schema.col}>
+      {formItem}
+    </Col>
+  }
+  return formItem
 }
-
 
 function getContitionalSchema(
   propertity: ContitionalProperties,
@@ -117,6 +145,8 @@ function getContitionResult(getValue: Function, contitional: PropertiesContition
       return false;
   }
 }
+
+
 
 export default renderItem;
 

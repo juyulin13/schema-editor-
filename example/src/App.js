@@ -34,11 +34,10 @@ const schema = {
       options: {
         maxFileSize: '2332kb',
         resourceType: 'image',
-        
       }
     },
     time: {
-      type: "null",
+      type: "virtual",
       format: "range",
       range: [{
         key: "startTime",
