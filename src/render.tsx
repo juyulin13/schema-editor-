@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Col } from 'antd';
+import { Col, Form, Card } from 'antd';
+import * as _ from 'lodash';
 import renderInput from './FormItem/renderInput';
 import renderSelect from './FormItem/enumSelector';
 import renderColor from './FormItem/color';
@@ -7,6 +8,56 @@ import { FormItemProps, PropertiesContitionalIf, ContitionalProperties, Schema, 
 import renderListEditor from './FormItem/listEditor';
 import renderResource from './FormItem/renderResource';
 import renderRange from './FormItem/renderRange'
+import FormItem from 'antd/lib/form/FormItem';
+import { WrappedFormUtils } from 'antd/lib/form/Form';
+import { FormTypes } from './formTypes'
+export interface Control {
+  'label'?: string,
+  'name'?: string,
+  'type'?: string,
+}
+
+
+export interface FormData {
+  title?: string,
+  style: object,
+  controls: Array<Control>
+  layout?: "inline" | "horizontal" | "vertical" | undefined
+};
+
+function renderForm(data: FormData, form: WrappedFormUtils) {
+  const { title, controls, style, layout } = data
+  return <Card title={title} style={style}>
+    <Form layout={layout || 'vertical'}>
+      {
+        controls.map(control => renderFormControl(control, form))
+      }
+    </Form>
+  </Card>
+}
+
+
+
+function renderFormControl(control: Control, form: WrappedFormUtils) {
+  const { label, name, options, type } = control
+
+  const Component = _.find(FormTypes, {
+    type
+  })
+  return (
+    <FormItem label={label}>
+      {
+        <Component form={form}  {...control} />
+      }
+    </FormItem>
+  )
+}
+
+
+function renderFormItem(control) {
+  const { }
+  switch
+}
 
 function renderItem({
   prefix, 
