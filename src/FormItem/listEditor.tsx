@@ -69,7 +69,7 @@ interface ListEditorState {
   curIndex: number
 }
 
-class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
+export default class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
   state = {
     data: [],
     modalVisible: false,
@@ -224,26 +224,3 @@ class ListEditor extends React.Component<ListEditorProps, ListEditorState> {
     )
   }
 }
-
-
-
-
-export default function renderListEditor(props: any) {
-  const { schema, title, form, prefix } = props;
-  return (
-    <FormItem label={title}>
-      {
-        form.getFieldDecorator(prefix)(
-          <ListEditor
-            prefix={prefix}
-            renderForm={renderForm}
-            form={form}
-            schema={schema}
-
-          />
-        )
-      }
-    </FormItem>
-  )
-}
-

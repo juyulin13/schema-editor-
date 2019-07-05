@@ -9,32 +9,21 @@ export interface FormRender {
   type: string,
   component: React.ComponentClass | React.FunctionComponent | Function
 }
-
-export const FormTypes: Array<FormRender> = [{
-  type: 'select',
-  component: EnumSelect,
-}, {
-  type: 'input',
-  component: Input,
-}, {
-  type: 'list',
-  component: List
-}, {
-  type: 'color',
-  component: Color,
-}, {
-  type: 'group',
-  component: Group
-}]
-
-
-
-
-
-export function getFormItemComponent(type: string): any {
-  return _.find(FormTypes, { type })
+export const FormTypes = {
+  'select': EnumSelect,
+  'input': Input,
+  'list': List,
+  'color': Color,
+  'group': Group
 }
 
-export function registFormItemCompoennt(data: FormItem) {
-  FormTypes.push(data)
-}
+
+
+
+// export function getFormItemComponent(type: string): any {
+//   return _.find(FormTypes, { type })
+// }
+
+// export function registFormItemCompoennt(data: FormItem) {
+//   FormTypes.push(data)
+// }

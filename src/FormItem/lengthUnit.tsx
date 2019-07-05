@@ -39,20 +39,3 @@ export default function LengthUnit(props: FormItemChildProps) {
 
 }
 
-export function renderLengthUnit({
-  schema,
-  form,
-  prefix,
-  initialValue,
-  formItemLayout
-}: any) {
-  return (
-    <FormItem label={schema.title} key={prefix} {...formItemLayout}>
-      {
-        form.getFieldDecorator(prefix, {
-          initialValue
-        })(React.createElement(LengthUnit))
-      }
-    </FormItem>
-  )
-}

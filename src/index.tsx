@@ -4,21 +4,18 @@
 
 import * as React from 'react'
 import styles from './styles.css'
+import render from './render';
 
 export type Props = { text: string }
 
-export default class ExampleComponent extends React.Component<Props> {
-  render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
-  }
+const RootProvider = React.createContext({})
+interface SchemaNode {
+  type: string
 }
 
-export { default as renderItem } from "./render";
+class Root extends React.Component {
+  
+  render() {
+    
+  }
+}

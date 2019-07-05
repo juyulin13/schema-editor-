@@ -7,18 +7,14 @@ const FormItem = Form.Item;
 
 export default ({
   schema,
-  prefix,
-  initialValue,
   form,
-  formItemLayout = {},
 }: any) => {
-  const { options } = schema;
+  const { name, title, maxSize, minSize, resourceType } = schema;
   return (
-    <FormItem label={schema.title} key={prefix} {...formItemLayout}>
+    <FormItem label={title} key={name}>
       {
-        form.getFieldDecorator(prefix, {
-          initialValue
-        })(<Upload {...options} />)
+        form.getFieldDecorator(name, {
+        })(<Upload resourceType ={resourceType} maxSize={maxSize} minSize={minSize} />)
       }
     </FormItem>
   )
