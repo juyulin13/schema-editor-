@@ -9,7 +9,7 @@ export interface FormRender {
   type: string,
   component: React.ComponentClass | React.FunctionComponent | Function
 }
-export const FormTypes = {
+export default {
   'select': EnumSelect,
   'input': Input,
   'list': List,
